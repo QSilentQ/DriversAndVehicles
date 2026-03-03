@@ -1,0 +1,39 @@
+﻿using Goods.Domain.Drivers;
+using Goods.Domain.Drivers.Enums;
+using Goods.Services.Drivers.Repositories.Models;
+using Npgsql;
+
+namespace Goods.Services.Drivers.Repositories.Converters;
+
+internal static class DriversConverter
+{
+    internal static Driver[] ToDrivers(this DriverDb[] driverDBs) => [.. driverDBs.Select(ToDriver)];
+
+    internal static Driver ToDriver(this DriverDb driverDb)
+    {
+        return new Driver(
+            driverDb.Id,
+            driverDb.FullName,
+            driverDb.Gender,
+            driverDb.DriverLicenseCategory,
+            driverDb.Experience,
+            driverDb.Birthday,
+            driverDb.PayPerHour,
+            driverDb.IsRemoved
+        );
+    }
+
+    internal static DriverDb ToDriverDb(this NpgsqlDataReader reader)
+    {
+        return new DriverDb(
+            reader.GetGuid(reader.GetOrdinal("id")),
+            reader.GetString(reader.GetOrdinal("full_name")),
+            (Gender)reader.GetInt32(reader.GetOrdinal("gender")),
+            (LicenseCategory)reader.GetInt32(reader.GetOrdinal("driver_license_category")),
+            reader.GetInt32(reader.GetOrdinal("experience")),
+            DateOnly.FromDateTime(reader.GetDateTime(reader.GetOrdinal("birthday"))),
+            reader.GetDecimal(reader.GetOrdinal("pay_per_hour")),
+            reader.GetBoolean(reader.GetOrdinal("is_removed"))
+        );
+    }
+}

@@ -1,0 +1,53 @@
+﻿namespace Goods.Services.Drivers.Repositories.Queries;
+
+internal static class Sql
+{
+    internal static String DriverSave =>
+        @"
+            INSERT INTO drivers (
+                id,
+                full_name,
+                gender,
+                driver_license_category,
+                birthday,
+                experience,
+                pay_per_hour,
+                is_removed
+            )
+            VALUES (
+                @p_id,
+                @p_full_name,
+                @p_gender,
+                @p_driver_license_category,
+                @p_birthday,
+                @p_experience,
+                @p_pay_per_hour,
+                FALSE
+            )
+	        ON CONFLICT (id) DO UPDATE SET
+	        	full_name = @p_full_name,
+                gender = @p_gender,
+                driver_license_category = @p_driver_license_category,
+                birthday = @p_birthday,
+                experience = @p_experience,
+                pay_per_hour = @p_pay_per_hour,
+        ";
+
+    internal static String GetDriversPage =>
+        @"
+			SELECT COUNT(*) OVER() as count, * FROM drivers
+			WHERE NOT is_removed
+			OFFSET @p_offset
+			LIMIT @p_limit
+		";
+
+    internal static String GetDriverById => "SELECT * FROM drivers WHERE id = @p_driver_id AND NOT is_removed";
+
+    internal static String MarkDriverAsRemoved =>
+        @"
+			UPDATE drivers
+			SET is_removed = TRUE,
+			WHERE id = @p_driver_id
+		";
+}
+
