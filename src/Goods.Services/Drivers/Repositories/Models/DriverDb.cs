@@ -4,20 +4,28 @@ namespace Goods.Services.Drivers.Repositories.Models;
 
 public class DriverDb(
     Guid id,
-    String fullName,
+    String firstName,
+    String secondName,
+    String lastName,
     Gender gender,
-    LicenseCategory driverLicenseCategory,
-    Int32 experience,
+    LicenseCategory[] driverLicenseCategory,
+    DateOnly experience,
     DateOnly birthday,
     Decimal payPerHour,
+    DateTime createdDateTimeUTC,
+    DateTime modifiedDateTimeUTC,
     Boolean isRemoved)
 {
     public Guid Id { get; set; } = id;
-    public String FullName { get; set; } = fullName;
+    public String FirstName { get; set; } = firstName;
+    public String SecondName { get; set; } = secondName;
+    public String LastName { get; set; } = lastName;
     public Gender Gender { get; set; } = gender;
-    public LicenseCategory DriverLicenseCategory { get; set; } = driverLicenseCategory;
+    public LicenseCategory[] DriverLicenseCategory { get; set; } = driverLicenseCategory;
     public DateOnly Birthday { get; set; } = birthday;
-    public Int32 Experience { get; set; } = experience;
+    public DateOnly Experience { get; set; } = experience;
     public Decimal PayPerHour { get; set; } = payPerHour;
+    public DateTime CreatedDateTimeUTC { get; set; } = createdDateTimeUTC;
+    public DateTime ModifiedDateTimeUTC { get; set; } = modifiedDateTimeUTC;
     public Boolean IsRemoved { get; set; } = isRemoved;
 }

@@ -1,4 +1,5 @@
 ﻿using Goods.Domain.Drivers;
+using Goods.Domain.Drivers.Enums;
 using Goods.Services.Drivers.Repositories.Converters;
 using Goods.Services.Drivers.Repositories.Interfaces;
 using Goods.Services.Drivers.Repositories.Models;
@@ -17,12 +18,16 @@ internal class DriversRepository : IDriversRepository
             (parameters) =>
             {
                 parameters.AddWithValue("p_id", driverBlank.Id!.Value);
-                parameters.AddWithValue("p_full_name", driverBlank.FullName!);
+                parameters.AddWithValue("p_first_name", driverBlank.FirstName!);
+                parameters.AddWithValue("p_second_name", driverBlank.SecondName!);
+                parameters.AddWithValue("p_last_name", driverBlank.LastName!);
                 parameters.AddWithValue("p_gender", (Int32)driverBlank.Gender!);
-                parameters.AddWithValue("p_driver_license_category", (Int32)driverBlank.DriverLicenseCategory!);
+                parameters.AddWithValue("p_driver_license_category", (LicenseCategory[])driverBlank.DriverLicenseCategory!);
                 parameters.AddWithValue("p_birthday", (DateOnly)driverBlank.Birthday!);
-                parameters.AddWithValue("p_experience", (Int32)driverBlank.Experience!);
+                parameters.AddWithValue("p_experience", (DateOnly)driverBlank.Experience!);
                 parameters.AddWithValue("p_pay_per_hour", (Decimal)driverBlank.PayPerHour!);
+                parameters.AddWithValue("p_created_datetime_utc", (DateTime)driverBlank.CreatedDatetimeUTC!);
+                parameters.AddWithValue("p_modified_datetime_utc", (DateTime)driverBlank.ModifiedDatetimeUTC!);
             }
         );
     }
@@ -62,9 +67,10 @@ internal class DriversRepository : IDriversRepository
     {
         DatabaseUtils.Execute(
             Sql.MarkDriverAsRemoved,
-            (parametres) =>
+            (parameters) =>
             {
-                parametres.AddWithValue("p_driver_id", driverId);
+                parameters.AddWithValue("p_driver_id", driverId);
+                parameters.AddWithValue("p_current_datetime_utc", DateTime.UtcNow);
             }
         );
     }

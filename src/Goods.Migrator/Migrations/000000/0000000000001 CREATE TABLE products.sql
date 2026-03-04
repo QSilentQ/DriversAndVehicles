@@ -12,12 +12,16 @@ CREATE TABLE products (
 
 CREATE TABLE drivers (
   id uuid NOT NULL,
-  full_name varchar NOT NULL,
+  first_name varchar NOT NULl,
+  second_name varchar NOT NULL,
+  last_name varchar,
   gender int4 NOT NULL,
-  driver_license_category int4 NOT NULL,
+  driver_license_category _int4 NOT NULL,
   birthday date NOT NULL,
-  experience int4 NOT NULL,
+  experience date NOT NULL,
   pay_per_hour decimal(4,2) NULL,
+  created_datetime_utc timestamp NOT NULL,
+  modified_datetime_utc timestamp NULL,
   is_removed bool NULL,
   CONSTRAINT drivers_pk PRIMARY KEY (id)
 );
@@ -30,6 +34,8 @@ CREATE TABLE vehicles (
   vehicle_category int4 NOT NULL,
   average_speed decimal(3,1) NOT NULL,
   fuel_consumption decimal(3,1) NOT NULL,
+  created_datetime_utc timestamp NOT NULL,
+  modified_datetime_utc timestamp NULL,
   is_removed bool NULL,
   CONSTRAINT vehicles_pk PRIMARY KEY (id),
   CONSTRAINT vehicles_driver_fk FOREIGN KEY (driver_id) REFERENCES drivers(id)

@@ -1,4 +1,5 @@
 ﻿using Goods.Domain.Drivers;
+using Goods.Domain.Drivers.Enums;
 using Goods.Domain.Services;
 using Goods.Services.Drivers.Repositories.Interfaces;
 using Goods.Tools.Types.Results;
@@ -11,8 +12,11 @@ public class DriversService(IDriversRepository driversRepository) : IDriverServi
 
     public Result SaveDriver(DriverBlank driverBlank)
     {
-        if (String.IsNullOrWhiteSpace(driverBlank.FullName))
-            return Result.Failed("Введите ФИО водителя");
+        if (String.IsNullOrWhiteSpace(driverBlank.FirstName))
+            return Result.Failed("Введите Фамилию водителя");
+
+        if (String.IsNullOrWhiteSpace(driverBlank.SecondName))
+            return Result.Failed("Введите Имя водителя");
 
         if (driverBlank.Gender is null)
             return Result.Failed("Выберите пол водителя");
@@ -23,8 +27,8 @@ public class DriversService(IDriversRepository driversRepository) : IDriverServi
         if (driverBlank.DriverLicenseCategory is null)
             return Result.Failed("Выберите категорию водительских прав");
 
-        if (!Enum.IsDefined(driverBlank.DriverLicenseCategory.Value))
-            return Result.Failed("Выбранная категория не существует. Пожалуйста, выберите другую");
+        if (driverBlank.DriverLicenseCategory.Any(category => !Enum.IsDefined(category)))
+            return Result.Failed("Выбрана одна или несколько некорректных категорий прав");
 
         if (driverBlank.Experience is null)
             return Result.Failed("Введите опыт вождения водителя");
@@ -35,7 +39,7 @@ public class DriversService(IDriversRepository driversRepository) : IDriverServi
         if (driverBlank.PayPerHour is null)
             return Result.Failed("Введите оплату водителя в час");
 
-        if (driverBlank.FullName.Length == MAX_VEHICLE_NAME_LENGTH)
+        if (driverBlank.FirstName.Length + driverBlank.SecondName.Length + driverBlank.LastName!.Length >= MAX_VEHICLE_NAME_LENGTH)
             return Result.Failed($"ФИО водителя слишком длинное. Максимально допустимо {MAX_VEHICLE_NAME_LENGTH} символов");
 
         driverBlank.Id ??= Guid.NewGuid();

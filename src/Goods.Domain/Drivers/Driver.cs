@@ -4,20 +4,28 @@ namespace Goods.Domain.Drivers;
 
 public class Driver(
     Guid id,
-    String fullName,
+    String firstName,
+    String secondName,
+    String lastName,
     Gender gender,
-    LicenseCategory driverLicenseCategory,
-    Int32 experience,
+    LicenseCategory[] driverLicenseCategory,
+    DateOnly experience,
     DateOnly birthday,
     Decimal payPerHour,
+    DateTime createdDatetimeUTC,
+    DateTime modifiedDatetimeUTC,
     Boolean isRemoved)
 {
     public Guid Id { get; } = id;
-    public String FullName { get; } = fullName;
+    public String FirstName { get; } = firstName;
+    public String SecondName { get; } = secondName;
+    public String LastName { get; } = lastName;
     public Gender Gender { get; } = gender;
-    public LicenseCategory DriverLicenseCategory { get; } = driverLicenseCategory;
+    public LicenseCategory[] DriverLicenseCategory { get; } = driverLicenseCategory;
     public DateOnly Birthday { get; } = birthday;
-    public Int32 Experience { get; } = experience;
+    public DateOnly Experience { get; } = experience;
     public Decimal PayPerHour { get; } = payPerHour;
+    public DateTime CreatedDatetimeUTC { get; } = createdDatetimeUTC;
+    public DateTime ModifiedDatetimeUTC { get; } = modifiedDatetimeUTC;
     public Boolean IsRemoved { get; } = isRemoved;
 }

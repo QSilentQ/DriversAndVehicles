@@ -10,6 +10,8 @@ public class Vehicle(
     VehicleCategory vehicleCategory,
     Decimal averageSpeed,
     Decimal fuelConsumption,
+    DateTime createdDatetimeUTC,
+    DateTime modifiedDatetimeUTC,
     Boolean isRemoved)
 {
     public Guid Id { get; } = id;
@@ -19,5 +21,7 @@ public class Vehicle(
     public VehicleCategory VehicleCategory { get; } = vehicleCategory;
     public Decimal AverageSpeed { get; } = averageSpeed;
     public Decimal FuelConsumption { get; } = fuelConsumption;
+    public DateTime CreatedDatetimeUTC { get; } = createdDatetimeUTC;
+    public DateTime ModifiedDatetimeUTC { get; } = modifiedDatetimeUTC;
     public Boolean IsRemoved { get; } = isRemoved;
 }

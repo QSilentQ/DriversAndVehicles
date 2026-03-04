@@ -12,6 +12,8 @@ internal static class Sql
                 vehicle_category,
                 average_speed,
                 fuel_consumption,
+                created_datetime_utc,
+                modified_datetime_utc,
                 is_removed
             )
             VALUES (
@@ -22,6 +24,8 @@ internal static class Sql
                 @p_vehicle_category,
                 @p_average_speed,
                 @p_fuel_consumption,
+                @p_created_datetime_utc,
+                @p_modified_datetime_utc,
                 FALSE
             )
 	        ON CONFLICT (id) DO UPDATE SET
@@ -30,13 +34,15 @@ internal static class Sql
                 state_number = @p_state_number,
                 vehicle_category = @p_vehicle_category,
                 average_speed = @p_average_speed,
-                fuel_consumption = @p_fuel_consumption
+                fuel_consumption = @p_fuel_consumption,
+                modified_datetime_utc = @p_modified_datetime_utc
         ";
 
     internal static String GetVehiclesPage =>
         @"
 			SELECT COUNT(*) OVER() as count, * FROM vehicles
 			WHERE NOT is_removed
+            ORDER BY created_datetime_utc DESC
 			OFFSET @p_offset
 			LIMIT @p_limit
 		";
@@ -47,6 +53,7 @@ internal static class Sql
         @"
 			UPDATE vehicles
 			SET is_removed = TRUE,
+                modified_datetime_utc = @p_current_datetime_utc
 			WHERE id = @p_vehicle_id
 		";
 }

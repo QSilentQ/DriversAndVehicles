@@ -19,6 +19,8 @@ internal static class VehiclesConverter
             vehicleDb.VehicleCategory,
             vehicleDb.AverageSpeed,
             vehicleDb.FuelConsumption,
+            vehicleDb.CreatedDatetimeUTC,
+            vehicleDb.ModifiedDatetimeUTC,
             vehicleDb.IsRemoved);
     }
 
@@ -32,6 +34,8 @@ internal static class VehiclesConverter
             (VehicleCategory)reader.GetInt32(reader.GetOrdinal("vehicle_category")),
             reader.GetDecimal(reader.GetOrdinal("average_speed")),
             reader.GetDecimal(reader.GetOrdinal("fuel_consumption")),
+            reader.GetDateTime(reader.GetOrdinal("created_datetime_utc")),
+            reader.GetDateTime(reader.GetOrdinal("modified_datetime_utc")),
             reader.GetBoolean(reader.GetOrdinal("is_removed"))
         );
     }

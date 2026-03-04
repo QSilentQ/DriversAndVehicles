@@ -13,12 +13,16 @@ internal static class DriversConverter
     {
         return new Driver(
             driverDb.Id,
-            driverDb.FullName,
+            driverDb.FirstName,
+            driverDb.SecondName,
+            driverDb.LastName,
             driverDb.Gender,
             driverDb.DriverLicenseCategory,
             driverDb.Experience,
             driverDb.Birthday,
             driverDb.PayPerHour,
+            driverDb.CreatedDateTimeUTC,
+            driverDb.ModifiedDateTimeUTC,
             driverDb.IsRemoved
         );
     }
@@ -27,12 +31,16 @@ internal static class DriversConverter
     {
         return new DriverDb(
             reader.GetGuid(reader.GetOrdinal("id")),
-            reader.GetString(reader.GetOrdinal("full_name")),
+            reader.GetString(reader.GetOrdinal("first_name")),
+            reader.GetString(reader.GetOrdinal("second_name")),
+            reader.GetString(reader.GetOrdinal("last_name")),
             (Gender)reader.GetInt32(reader.GetOrdinal("gender")),
-            (LicenseCategory)reader.GetInt32(reader.GetOrdinal("driver_license_category")),
-            reader.GetInt32(reader.GetOrdinal("experience")),
+            reader.GetFieldValue<LicenseCategory[]>(reader.GetOrdinal("driver_license_category")),
+            DateOnly.FromDateTime(reader.GetDateTime(reader.GetOrdinal("experience"))),
             DateOnly.FromDateTime(reader.GetDateTime(reader.GetOrdinal("birthday"))),
             reader.GetDecimal(reader.GetOrdinal("pay_per_hour")),
+            reader.GetDateTime(reader.GetOrdinal("created_datetime_utc")),
+            reader.GetDateTime(reader.GetOrdinal("modified_datetime_utc")),
             reader.GetBoolean(reader.GetOrdinal("is_removed"))
         );
     }

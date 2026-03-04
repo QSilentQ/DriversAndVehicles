@@ -11,5 +11,7 @@ public class VehicleBlank
     public VehicleCategory? VehicleCategory { get; set; }
     public Decimal? AverageSpeed { get; set; }
     public Decimal? FuelConsumption { get; set; }
+    public DateTime? CreatedDatetimeUTC { get; set; }
+    public DateTime ModifiedDatetimeUTC { get; set; }
     public Boolean IsRemoved { get; set; }
 }

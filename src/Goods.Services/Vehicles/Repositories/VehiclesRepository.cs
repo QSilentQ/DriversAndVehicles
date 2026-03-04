@@ -23,6 +23,8 @@ namespace Goods.Services.Vehicles.Repositories
                     parametres.AddWithValue("p_vehicle_category", (Int32)vehicleBlank.VehicleCategory!);
                     parametres.AddWithValue("p_average_speed", (Decimal)vehicleBlank.AverageSpeed!);
                     parametres.AddWithValue("p_fuel_consumption", (Decimal)vehicleBlank.FuelConsumption!);
+                    parametres.AddWithValue("p_created_datetime_utc", (DateTime)vehicleBlank.CreatedDatetimeUTC!);
+                    parametres.AddWithValue("p_modified_datetime_utc", vehicleBlank.ModifiedDatetimeUTC);
                 }
             );
         }
@@ -65,6 +67,7 @@ namespace Goods.Services.Vehicles.Repositories
                 (parametres) =>
                 {
                     parametres.AddWithValue("p_vehicle_id", vehicleId);
+                    parametres.AddWithValue("p_current_datetime_utc", DateTime.UtcNow);
                 }
             );
         }

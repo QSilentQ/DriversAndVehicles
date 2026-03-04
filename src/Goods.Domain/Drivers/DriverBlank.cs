@@ -5,11 +5,15 @@ namespace Goods.Domain.Drivers;
 public class DriverBlank
 {
     public Guid? Id { get; set; }
-    public String? FullName { get; set; }
+    public String? FirstName { get; set; }
+    public String? SecondName { get; set; }
+    public String? LastName { get; set; }
     public Gender? Gender { get; set; }
-    public LicenseCategory? DriverLicenseCategory { get; set; }
+    public LicenseCategory[]? DriverLicenseCategory { get; set; }
     public DateOnly? Birthday { get; set; }
-    public Int32? Experience { get; set; }
+    public DateOnly? Experience { get; set; }
     public Decimal? PayPerHour { get; set; }
+    public DateTime? CreatedDatetimeUTC { get; set; }
+    public DateTime ModifiedDatetimeUTC { get; set; }
     public Boolean IsRemoved { get; set; }
 }
