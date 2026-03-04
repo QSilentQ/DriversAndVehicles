@@ -19,7 +19,7 @@ CREATE TABLE drivers (
   driver_license_category _int4 NOT NULL,
   birthday date NOT NULL,
   experience date NOT NULL,
-  pay_per_hour decimal(4,2) NULL,
+  pay_per_hour float(8) NULL,
   created_datetime_utc timestamp NOT NULL,
   modified_datetime_utc timestamp NULL,
   is_removed bool NULL,

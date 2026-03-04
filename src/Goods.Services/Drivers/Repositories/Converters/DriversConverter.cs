@@ -21,8 +21,6 @@ internal static class DriversConverter
             driverDb.Experience,
             driverDb.Birthday,
             driverDb.PayPerHour,
-            driverDb.CreatedDateTimeUTC,
-            driverDb.ModifiedDateTimeUTC,
             driverDb.IsRemoved
         );
     }

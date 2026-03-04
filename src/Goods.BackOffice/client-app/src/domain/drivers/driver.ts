@@ -5,11 +5,13 @@ import { Gender } from "./enums/gender";
 export class Driver {
   constructor(
     public readonly id: string,
-    public readonly full_name: string,
+    public readonly first_name: string,
+    public readonly second_name: string,
+    public readonly last_name: string,
     public readonly gender: Gender,
     public readonly driver_license_category: DriverLicenseCategory,
     public readonly birthday: Date,
-    public readonly experience: number,
+    public readonly experience: Date,
     public readonly pay_per_hour: number,
   ) {}
 }
@@ -25,7 +27,9 @@ export function mapToDrivers(data: any[]): Driver[] {
 export function mapToDriver(data: any): Driver {
   return new Driver(
     data.id,
-    data.full_name,
+    data.first_name,
+    data.second_name,
+    data.last_name,
     data.gender,
     data.driver_license_category,
     data.birthday,

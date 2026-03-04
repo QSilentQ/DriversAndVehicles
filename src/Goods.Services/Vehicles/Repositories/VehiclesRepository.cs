@@ -14,17 +14,16 @@ namespace Goods.Services.Vehicles.Repositories
         {
             DatabaseUtils.Execute(
                 Sql.VehicleSave,
-                (parametres) =>
+                (parameters) =>
                 {
-                    parametres.AddWithValue("p_id", vehicleBlank.Id!.Value);
-                    parametres.AddWithValue("p_driver_id", vehicleBlank.DriverId);
-                    parametres.AddWithValue("p_name", vehicleBlank.Name!);
-                    parametres.AddWithValue("p_state_number", vehicleBlank.StateNumber!);
-                    parametres.AddWithValue("p_vehicle_category", (Int32)vehicleBlank.VehicleCategory!);
-                    parametres.AddWithValue("p_average_speed", (Decimal)vehicleBlank.AverageSpeed!);
-                    parametres.AddWithValue("p_fuel_consumption", (Decimal)vehicleBlank.FuelConsumption!);
-                    parametres.AddWithValue("p_created_datetime_utc", (DateTime)vehicleBlank.CreatedDatetimeUTC!);
-                    parametres.AddWithValue("p_modified_datetime_utc", vehicleBlank.ModifiedDatetimeUTC);
+                    parameters.AddWithValue("p_id", vehicleBlank.Id!.Value);
+                    parameters.AddWithValue("p_driver_id", vehicleBlank.DriverId);
+                    parameters.AddWithValue("p_name", vehicleBlank.Name!);
+                    parameters.AddWithValue("p_state_number", vehicleBlank.StateNumber!);
+                    parameters.AddWithValue("p_vehicle_category", (Int32)vehicleBlank.VehicleCategory!);
+                    parameters.AddWithValue("p_average_speed", (Decimal)vehicleBlank.AverageSpeed!);
+                    parameters.AddWithValue("p_fuel_consumption", (Decimal)vehicleBlank.FuelConsumption!);
+                    parameters.AddWithValue("p_current_datetime_utc", DateTime.UtcNow);
                 }
             );
         }

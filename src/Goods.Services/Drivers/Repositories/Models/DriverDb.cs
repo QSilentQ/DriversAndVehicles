@@ -13,7 +13,7 @@ public class DriverDb(
     DateOnly birthday,
     Decimal payPerHour,
     DateTime createdDateTimeUTC,
-    DateTime modifiedDateTimeUTC,
+    DateTime? modifiedDateTimeUTC,
     Boolean isRemoved)
 {
     public Guid Id { get; set; } = id;
@@ -26,6 +26,6 @@ public class DriverDb(
     public DateOnly Experience { get; set; } = experience;
     public Decimal PayPerHour { get; set; } = payPerHour;
     public DateTime CreatedDateTimeUTC { get; set; } = createdDateTimeUTC;
-    public DateTime ModifiedDateTimeUTC { get; set; } = modifiedDateTimeUTC;
+    public DateTime? ModifiedDateTimeUTC { get; set; } = modifiedDateTimeUTC;
     public Boolean IsRemoved { get; set; } = isRemoved;
 }

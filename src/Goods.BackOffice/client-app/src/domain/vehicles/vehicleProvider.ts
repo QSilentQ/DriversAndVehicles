@@ -25,7 +25,7 @@ export class VehiclesProvider {
       method: 'GET',
       headers: this.headers
     });
-    const json = response.json() ;
+    const json = await response.json();
 
     return mapToVehiclesPage(json);
   }

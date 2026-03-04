@@ -5,10 +5,11 @@ import { InputProps as DefaultProps } from '../input';
 export interface Props extends DefaultProps {
 	placeholder?: string;
 
+	inputType?: 'text' | 'date' | 'password';
+
 	value: string | null;
 	onChange: (value: string | null) => void;
 
-	isPassword?: boolean;
 	required?: boolean;
 }
 
@@ -22,9 +23,8 @@ export function TextInput(props: Props) {
 
 	return (
 		<TextField
-			type={props.isPassword ? 'password' : 'text'}
+			type={props.inputType ?? 'text'}
 			label={props.title}
-			autoComplete={'new-password'}
 			placeholder={props.placeholder}
 			className={props.className}
 			size={props.size}
@@ -34,6 +34,7 @@ export function TextInput(props: Props) {
 			required={props.required}
 			disabled={props.disabled}
 			fullWidth
+			slotProps={props.inputType === 'date' ? { inputLabel: { shrink: true } } : undefined}
 		/>
 	);
 }

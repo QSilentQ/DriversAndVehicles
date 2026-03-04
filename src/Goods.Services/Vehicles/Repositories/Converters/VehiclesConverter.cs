@@ -19,8 +19,6 @@ internal static class VehiclesConverter
             vehicleDb.VehicleCategory,
             vehicleDb.AverageSpeed,
             vehicleDb.FuelConsumption,
-            vehicleDb.CreatedDatetimeUTC,
-            vehicleDb.ModifiedDatetimeUTC,
             vehicleDb.IsRemoved);
     }
 

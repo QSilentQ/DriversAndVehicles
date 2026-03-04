@@ -15,7 +15,6 @@ internal static class Sql
                 experience,
                 pay_per_hour,
                 created_datetime_utc,
-                modified_datetime_utc,
                 is_removed
             )
             VALUES (
@@ -28,8 +27,7 @@ internal static class Sql
                 @p_birthday,
                 @p_experience,
                 @p_pay_per_hour,
-                @p_created_datetime_utc,
-                @p_modified_datetime_utc,
+                @p_current_datetime_utc,
                 FALSE
             )
 	        ON CONFLICT (id) DO UPDATE SET
@@ -41,7 +39,7 @@ internal static class Sql
                 birthday = @p_birthday,
                 experience = @p_experience,
                 pay_per_hour = @p_pay_per_hour,
-                modified_datetime_utc = @p_modified_datetime_utc
+                modified_datetime_utc = @p_current_datetime_utc
         ";
 
     internal static String GetDriversPage =>
