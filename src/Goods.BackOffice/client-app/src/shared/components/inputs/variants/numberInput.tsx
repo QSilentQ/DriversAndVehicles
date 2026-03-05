@@ -55,7 +55,11 @@ export function NumberInput(props: Props) {
 		if (isNaN(value)) return props.onChange(null);
 		if (props.min != null && value < props.min) return;
 		if (props.max != null && value > props.max) return;
-		if (props.isAvailableFractionValue && getNumberDecimalPlaces(value) > getNumberDecimalPlaces(props.step ?? 0))
+		if (
+			props.isAvailableFractionValue &&
+			props.step != null &&
+			getNumberDecimalPlaces(value) > getNumberDecimalPlaces(props.step)
+		)
 			return;
 
 		props.onChange(value);

@@ -1,4 +1,4 @@
-﻿using Goods.Domain.Drivers;
+using Goods.Domain.Drivers;
 using Goods.Domain.Drivers.Enums;
 using Goods.Services.Drivers.Repositories.Models;
 using Npgsql;
@@ -33,12 +33,14 @@ internal static class DriversConverter
             reader.GetString(reader.GetOrdinal("second_name")),
             reader.GetString(reader.GetOrdinal("last_name")),
             (Gender)reader.GetInt32(reader.GetOrdinal("gender")),
-            reader.GetFieldValue<LicenseCategory[]>(reader.GetOrdinal("driver_license_category")),
+            Array.ConvertAll(reader.GetFieldValue<Int32[]>(reader.GetOrdinal("driver_license_category")), category => (LicenseCategory)category),
             DateOnly.FromDateTime(reader.GetDateTime(reader.GetOrdinal("experience"))),
             DateOnly.FromDateTime(reader.GetDateTime(reader.GetOrdinal("birthday"))),
-            reader.GetDecimal(reader.GetOrdinal("pay_per_hour")),
+            Convert.ToDecimal(reader.GetFloat(reader.GetOrdinal("pay_per_hour"))),
             reader.GetDateTime(reader.GetOrdinal("created_datetime_utc")),
-            reader.GetDateTime(reader.GetOrdinal("modified_datetime_utc")),
+            reader.IsDBNull(reader.GetOrdinal("modified_datetime_utc"))
+                ? null
+                : reader.GetDateTime(reader.GetOrdinal("modified_datetime_utc")),
             reader.GetBoolean(reader.GetOrdinal("is_removed"))
         );
     }

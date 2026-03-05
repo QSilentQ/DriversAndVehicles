@@ -20,6 +20,8 @@ import { TablePagination } from '../../shared/components/tablePagination';
 import { ConfirmModalState } from '../../shared/types/confirmModalState';
 import { Pagination } from '../../tools/types/pagination';
 import { VehicleEditorModal } from './modals/vehicleEditorModal';
+import { DriversProvider } from '../../domain/drivers/driversProvider';
+import { Driver } from '../../domain/drivers/driver';
 
 type VehicleEditorModalState = {
 	vehicleId: string | null;
@@ -32,6 +34,7 @@ interface RemoveVehicleConfirmModalState extends ConfirmModalState {
 
 export function VehiclesPage() {
 	const [vehicles, setVehicles] = useState<Vehicle[]>([]);
+	const [drivers, setDrivers] = useState<Driver[]>([]);
 	const [pagination, setPagination] = useState<Pagination>(Pagination.default);
 
 	const [vehicleEditorModalState, setVehicleEditorModalState] = useState<VehicleEditorModalState>({
@@ -48,7 +51,13 @@ export function VehiclesPage() {
 
 	useEffect(() => {
 		loadVehiclesPage({ ...pagination });
+		loadDrivers();
 	}, []);
+
+	async function loadDrivers() {
+		const drivers = await DriversProvider.getDriversPage(1, 1000);
+		setDrivers(drivers.values);
+	}
 
 	async function loadVehiclesPage(newPagination: Pagination) {
 		const vehiclesPage = await VehiclesProvider.getVehiclesPage(
@@ -89,6 +98,13 @@ export function VehiclesPage() {
 				`Вы действительно хотите удалить транспортное средство "${name}"?`
 			)
 		});
+	}
+
+	function getDriverName(driverId: string) {
+		const driver = drivers.find((driver) => driver.id === driverId);
+		if (driver == null) return '—';
+		const { firstName, secondName, lastName } = driver;
+		return `${firstName} ${secondName} ${lastName}`;
 	}
 
 	async function closeRemoveVehicleConfirmModal(isConfirmed: boolean) {
@@ -133,10 +149,11 @@ export function VehiclesPage() {
 						<TableHead>
 							<TableRow>
 								<TableCell>Название</TableCell>
+								<TableCell>Водитель</TableCell>
 								<TableCell>Гос. номер</TableCell>
 								<TableCell>Категория</TableCell>
-								<TableCell>Средняя скорость</TableCell>
-								<TableCell>Расход топлива</TableCell>
+								<TableCell>Средняя скорость, км/ч</TableCell>
+								<TableCell>Расход топлива, л/100 км</TableCell>
 								<TableCell>Управление</TableCell>
 							</TableRow>
 						</TableHead>
@@ -149,16 +166,17 @@ export function VehiclesPage() {
 							{vehicles.map((vehicle) => {
 								return (
 									<TableRow key={`vehicle__${vehicle.id}`}>
-										<TableCell width='20%'>{vehicle.name}</TableCell>
-										<TableCell width='15%'>{vehicle.state_number}</TableCell>
+										<TableCell width='10%'>{vehicle.name}</TableCell>
+										<TableCell width='15%'>{vehicle.driverId != null ? getDriverName(vehicle.driverId) : '—'}</TableCell>
+										<TableCell width='15%'>{vehicle.stateNumber}</TableCell>
 										<TableCell width='15%'>
-											{vehicle.vehicle_category != null
-												? VehicleCategory.getDisplayName(vehicle.vehicle_category)
+											{vehicle.vehicleCategory != null
+												? VehicleCategory.getDisplayName(vehicle.vehicleCategory)
 												: '—'}
 										</TableCell>
-										<TableCell width='15%'>{vehicle.average_speed ?? '—'}</TableCell>
-										<TableCell width='15%'>{vehicle.fuel_consumption ?? '—'}</TableCell>
-										<TableCell>
+										<TableCell width='15%'>{vehicle.averageSpeed ?? '—'}</TableCell>
+										<TableCell width='15%'>{vehicle.fuelConsumption ?? '—'}</TableCell>
+										<TableCell width='12%'>
 											<Button
 												type='icon'
 												variant='edit'

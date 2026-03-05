@@ -86,7 +86,7 @@ export function DriversPage() {
 	}
 
 	function getDriverFio(d: Driver) {
-		return [d.last_name, d.first_name, d.second_name].filter(Boolean).join(' ') || '—';
+		return [d.firstName, d.secondName, d.lastName].filter(Boolean).join(' ') || '—';
 	}
 
 	function openRemoveDriverConfirmModal(driverId: string, fio: string) {
@@ -94,6 +94,12 @@ export function DriversPage() {
 			driverId,
 			...ConfirmModalState.getOpen(`Вы действительно хотите удалить водителя "${fio}"?`)
 		});
+	}
+
+	function calculateDriverExperience(experience: Date) {
+		const diffMs = new Date().getTime() - new Date(experience).getTime();
+		const years = diffMs / (365.25 * 24 * 60 * 60 * 1000);
+		return Math.floor(years);
 	}
 
 	async function closeRemoveDriverConfirmModal(isConfirmed: boolean) {
@@ -138,7 +144,7 @@ export function DriversPage() {
 								<TableCell>Пол</TableCell>
 								<TableCell>Категория прав</TableCell>
 								<TableCell>Дата рождения</TableCell>
-								<TableCell>Стаж с</TableCell>
+								<TableCell>Стаж, лет</TableCell>
 								<TableCell>Оплата/час</TableCell>
 								<TableCell>Управление</TableCell>
 							</TableRow>
@@ -156,15 +162,17 @@ export function DriversPage() {
 										<TableCell width='10%'>
 											{driver.gender != null ? Gender.getDisplayName(driver.gender) : '—'}
 										</TableCell>
-										<TableCell width='15%'>
-											{driver.driver_license_category != null
-												? DriverLicenseCategory.getDisplayName(driver.driver_license_category)
+										<TableCell width='22%'>
+											{driver.driverLicenseCategory?.length
+												? driver.driverLicenseCategory
+														.map((c) => DriverLicenseCategory.getDisplayName(c))
+														.join(', ')
 												: '—'}
 										</TableCell>
 										<TableCell width='12%'>{formatDate(driver.birthday)}</TableCell>
-										<TableCell width='12%'>{formatDate(driver.experience)}</TableCell>
-										<TableCell width='11%'>{driver.pay_per_hour ?? '—'}</TableCell>
-										<TableCell>
+										<TableCell width='12%'>{calculateDriverExperience(driver.experience)}</TableCell>
+										<TableCell width='12%'>{driver.payPerHour ?? '—'}</TableCell>
+										<TableCell width='12%'>
 											<Button
 												type='icon'
 												variant='edit'

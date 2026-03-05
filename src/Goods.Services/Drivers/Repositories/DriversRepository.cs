@@ -1,4 +1,4 @@
-﻿using Goods.Domain.Drivers;
+using Goods.Domain.Drivers;
 using Goods.Domain.Drivers.Enums;
 using Goods.Services.Drivers.Repositories.Converters;
 using Goods.Services.Drivers.Repositories.Interfaces;
@@ -23,8 +23,8 @@ internal class DriversRepository : IDriversRepository
                 parameters.AddWithValue("p_last_name", driverBlank.LastName!);
                 parameters.AddWithValue("p_gender", (Int32)driverBlank.Gender!);
                 parameters.AddWithValue("p_driver_license_category", Array.ConvertAll(driverBlank.DriverLicenseCategory!, category => (Int32)category));
-                parameters.AddWithValue("p_birthday", (DateOnly)driverBlank.Birthday!);
-                parameters.AddWithValue("p_experience", (DateOnly)driverBlank.Experience!);
+                parameters.AddWithValue("p_birthday", DateOnly.FromDateTime(driverBlank.Birthday!.Value));
+                parameters.AddWithValue("p_experience", DateOnly.FromDateTime(driverBlank.Experience!.Value));
                 parameters.AddWithValue("p_pay_per_hour", (Decimal)driverBlank.PayPerHour!);
                 parameters.AddWithValue("p_current_datetime_utc", DateTime.UtcNow);
             }

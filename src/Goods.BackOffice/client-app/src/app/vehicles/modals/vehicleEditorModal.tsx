@@ -18,7 +18,7 @@ interface Props {
 }
 
 function getDriverFio(d: Driver) {
-	return [d.last_name, d.first_name, d.second_name].filter(Boolean).join(' ') || '—';
+	return [d.lastName, d.firstName, d.secondName].filter(Boolean).join(' ') || '—';
 }
 
 export function VehicleEditorModal(props: Props) {
@@ -52,7 +52,7 @@ export function VehicleEditorModal(props: Props) {
 		};
 	}, [props.isOpen, props.vehicleId]);
 
-	const selectedDriver = drivers.find((d) => d.id === vehicleBlank.driver_id) ?? null;
+	const selectedDriver = drivers.find((d) => d.id === vehicleBlank.driverId) ?? null;
 
 	async function saveVehicle() {
 		const result = await VehiclesProvider.saveVehicle(vehicleBlank);
@@ -85,7 +85,7 @@ export function VehicleEditorModal(props: Props) {
 						isOptionEqualToValue={(a, b) => a.id === b.id}
 						value={selectedDriver}
 						onChange={(driver) =>
-							setVehicleBlank((vehicleBlank) => ({ ...vehicleBlank, driver_id: driver?.id ?? null }))
+							setVehicleBlank((vehicleBlank) => ({ ...vehicleBlank, driverId: driver?.id ?? null }))
 						}
 						clearable
 					/>
@@ -99,9 +99,9 @@ export function VehicleEditorModal(props: Props) {
 					<Input
 						variant='text'
 						title='Введите гос. номер'
-						value={vehicleBlank.state_number}
-						onChange={(state_number) =>
-							setVehicleBlank((vehicleBlank) => ({ ...vehicleBlank, state_number }))
+						value={vehicleBlank.stateNumber}
+						onChange={(stateNumber) =>
+							setVehicleBlank((vehicleBlank) => ({ ...vehicleBlank, stateNumber }))
 						}
 						required
 					/>
@@ -111,18 +111,18 @@ export function VehicleEditorModal(props: Props) {
 						options={Enum.getNumberValues<VehicleCategory>(VehicleCategory)}
 						getOptionLabel={(option) => VehicleCategory.getDisplayName(option)}
 						isOptionEqualToValue={(a, b) => a === b}
-						value={vehicleBlank.vehicle_category}
-						onChange={(vehicle_category) =>
-							setVehicleBlank((vehicleBlank) => ({ ...vehicleBlank, vehicle_category }))
+						value={vehicleBlank.vehicleCategory}
+						onChange={(vehicleCategory) =>
+							setVehicleBlank((vehicleBlank) => ({ ...vehicleBlank, vehicleCategory }))
 						}
 						required
 					/>
 					<Input
 						variant='number'
 						title='Введите среднюю скорость'
-						value={vehicleBlank.average_speed}
-						onChange={(average_speed) =>
-							setVehicleBlank((vehicleBlank) => ({ ...vehicleBlank, average_speed }))
+						value={vehicleBlank.averageSpeed}
+						onChange={(averageSpeed) =>
+							setVehicleBlank((vehicleBlank) => ({ ...vehicleBlank, averageSpeed }))
 						}
 						isAvailableFractionValue
 						required
@@ -130,9 +130,9 @@ export function VehicleEditorModal(props: Props) {
 					<Input
 						variant='number'
 						title='Введите расход топлива'
-						value={vehicleBlank.fuel_consumption}
-						onChange={(fuel_consumption) =>
-							setVehicleBlank((vehicleBlank) => ({ ...vehicleBlank, fuel_consumption }))
+						value={vehicleBlank.fuelConsumption}
+						onChange={(fuelConsumption) =>
+							setVehicleBlank((vehicleBlank) => ({ ...vehicleBlank, fuelConsumption }))
 						}
 						isAvailableFractionValue
 						required

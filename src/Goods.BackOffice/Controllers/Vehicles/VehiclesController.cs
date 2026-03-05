@@ -26,8 +26,8 @@ public class VehiclesController(IVehicleService vehicleService) : AppController
     }
 
     [HttpGet("vehicles/mark_vehicle_as_removed")]
-    public Result MarkVehicleAsRemoved([FromQuery] Guid productId)
+    public Result MarkVehicleAsRemoved([FromQuery] Guid vehicleId)
     {
-        return vehicleService.MarkVehicleAsRemoved(productId);
+        return vehicleService.MarkVehicleAsRemoved(vehicleId);
     }
 }

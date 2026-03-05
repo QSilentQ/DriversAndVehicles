@@ -1,4 +1,4 @@
-﻿using Goods.Domain.Vehicles;
+using Goods.Domain.Vehicles;
 using Goods.Services.Vehicles.Repositories.Converters;
 using Goods.Services.Vehicles.Repositories.Interfaces;
 using Goods.Services.Vehicles.Repositories.Models;
@@ -16,8 +16,8 @@ namespace Goods.Services.Vehicles.Repositories
                 Sql.VehicleSave,
                 (parameters) =>
                 {
-                    parameters.AddWithValue("p_id", vehicleBlank.Id!.Value);
-                    parameters.AddWithValue("p_driver_id", vehicleBlank.DriverId);
+                    parameters.AddWithValue("p_id", vehicleBlank.Id ?? Guid.NewGuid());
+                    parameters.AddWithValue("p_driver_id", (Object?)vehicleBlank.DriverId ?? DBNull.Value);
                     parameters.AddWithValue("p_name", vehicleBlank.Name!);
                     parameters.AddWithValue("p_state_number", vehicleBlank.StateNumber!);
                     parameters.AddWithValue("p_vehicle_category", (Int32)vehicleBlank.VehicleCategory!);

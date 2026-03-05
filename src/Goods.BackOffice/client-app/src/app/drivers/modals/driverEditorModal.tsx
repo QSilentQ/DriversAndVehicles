@@ -9,7 +9,8 @@ import { Input } from '../../../shared/components/inputs/input';
 import { Modal } from '../../../shared/components/modals/modal';
 import { Notification } from '../../../shared/components/notification';
 import { Enum } from '../../../tools/types/enum';
-import { TextField } from '@mui/material';
+import CheckIcon from '@mui/icons-material/Check';
+import { FormControl, InputLabel, ListItemIcon, MenuItem, Select } from '@mui/material';
 
 interface Props {
 	driverId: string | null;
@@ -81,23 +82,23 @@ export function DriverEditorModal(props: Props) {
 					<Input
 						variant='text'
 						title='Введите фамилию'
-						value={driverBlank.first_name}
-						onChange={(first_name) => setDriverBlank((driverBlank) => ({ ...driverBlank, first_name }))}
+						value={driverBlank.firstName}
+						onChange={(firstName) => setDriverBlank((driverBlank) => ({ ...driverBlank, firstName }))}
 						required
 					/>
 					<Input
 						variant='text'
 						title='Введите имя'
-						value={driverBlank.second_name}
-						onChange={(second_name) => setDriverBlank((driverBlank) => ({ ...driverBlank, second_name }))}
+						value={driverBlank.secondName}
+						onChange={(secondName) => setDriverBlank((driverBlank) => ({ ...driverBlank, secondName }))}
 						required
 					/>
 					<Input
 						variant='text'
 						title='Введите отчество'
-						value={driverBlank.last_name}
-						onChange={(last_name) =>
-							setDriverBlank((driverBlank) => ({ ...driverBlank, last_name }))
+						value={driverBlank.lastName}
+						onChange={(lastName) =>
+							setDriverBlank((driverBlank) => ({ ...driverBlank, lastName }))
 						}
 					/>
 					<Input
@@ -110,40 +111,56 @@ export function DriverEditorModal(props: Props) {
 						onChange={(gender) => setDriverBlank((driverBlank) => ({ ...driverBlank, gender }))}
 						required
 					/>
+					<FormControl fullWidth required size='medium'>
+						<InputLabel id='driver-license-category-label'>Выберите категорию прав</InputLabel>
+						<Select
+							multiple
+							labelId='driver-license-category-label'
+							value={driverBlank.driverLicenseCategory ?? []}
+							label='Выберите категорию прав'
+							onChange={(e) =>
+								setDriverBlank((prev) => ({
+									...prev,
+									driverLicenseCategory: [...(e.target.value as DriverLicenseCategory[])]
+								}))
+							}
+							renderValue={(selected: DriverLicenseCategory[]) =>
+								selected.map((c) => DriverLicenseCategory.getDisplayName(c)).join(', ')
+							}>
+							{Enum.getNumberValues<DriverLicenseCategory>(DriverLicenseCategory).map((category) => (
+								<MenuItem key={category} value={category}>
+									{driverBlank.driverLicenseCategory?.includes(category) ? (
+										<ListItemIcon sx={{ minWidth: 36 }}>
+											<CheckIcon fontSize='small' />
+										</ListItemIcon>
+									) : (
+										<ListItemIcon sx={{ minWidth: 36 }} />
+									)}
+									{DriverLicenseCategory.getDisplayName(category)}
+								</MenuItem>
+							))}
+						</Select>
+					</FormControl>
 					<Input
-						variant='select'
-						title='Выберите категорию прав'
-						options={Enum.getNumberValues<DriverLicenseCategory>(DriverLicenseCategory)}
-						getOptionLabel={(option) => DriverLicenseCategory.getDisplayName(option)}
-						isOptionEqualToValue={(a, b) => a === b}
-						value={driverBlank.driver_license_category}
-						onChange={(driver_license_category) =>
-							setDriverBlank((driverBlank) => ({ ...driverBlank, driver_license_category }))
-						}
-						required
-					/>
-					<TextField
-						fullWidth
-						label='Дата рождения'
-						type='date'
+						title='Дата рождения'
+						variant='date'
 						value={toDateValue(driverBlank.birthday)}
-						onChange={(e) =>
+						onChange={(value) =>
 							setDriverBlank((driverBlank) => ({
 								...driverBlank,
-								birthday: fromDateValue(e.target.value || null)
+								birthday: fromDateValue(value)
 							}))
 						}
 						required
 					/>
-					<TextField
-						fullWidth
-						label='Дата начала стажа'
-						type='date'
+					<Input
+						title='Дата начала стажа'
+						variant='date'
 						value={toDateValue(driverBlank.experience)}
-						onChange={(e) =>
+						onChange={(value) =>
 							setDriverBlank((driverBlank) => ({
 								...driverBlank,
-								experience: fromDateValue(e.target.value || null)
+								experience: fromDateValue(value)
 							}))
 						}
 						required
@@ -151,9 +168,9 @@ export function DriverEditorModal(props: Props) {
 					<Input
 						variant='number'
 						title='Введите оплату за час'
-						value={driverBlank.pay_per_hour}
-						onChange={(pay_per_hour) =>
-							setDriverBlank((driverBlank) => ({ ...driverBlank, pay_per_hour }))
+						value={driverBlank.payPerHour}
+						onChange={(payPerHour) =>
+							setDriverBlank((driverBlank) => ({ ...driverBlank, payPerHour }))
 						}
 						isAvailableFractionValue
 						required

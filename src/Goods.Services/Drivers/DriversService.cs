@@ -1,4 +1,4 @@
-﻿using Goods.Domain.Drivers;
+using Goods.Domain.Drivers;
 using Goods.Domain.Drivers.Enums;
 using Goods.Domain.Services;
 using Goods.Services.Drivers.Repositories.Interfaces;
@@ -10,8 +10,11 @@ public class DriversService(IDriversRepository driversRepository) : IDriverServi
 {
     private const Int32 MAX_VEHICLE_NAME_LENGTH = 255;
 
-    public Result SaveDriver(DriverBlank driverBlank)
+    public Result SaveDriver(DriverBlank? driverBlank)
     {
+        if (driverBlank is null)
+            return Result.Failed("Данные водителя не получены. Проверьте формат запроса.");
+
         if (String.IsNullOrWhiteSpace(driverBlank.FirstName))
             return Result.Failed("Введите Фамилию водителя");
 

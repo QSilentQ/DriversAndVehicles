@@ -4,7 +4,7 @@ namespace Goods.Services.Vehicles.Repositories.Models;
 
 public class VehicleDb(
     Guid id,
-    Guid driverId,
+    Guid? driverId,
     String name,
     String stateNumber,
     VehicleCategory vehicleCategory,
@@ -15,7 +15,7 @@ public class VehicleDb(
     Boolean isRemoved)
 {
     public Guid Id { get; set; } = id;
-    public Guid DriverId { get; set; } = driverId;
+    public Guid? DriverId { get; set; } = driverId;
     public String Name { get; set; } = name;
     public String StateNumber { get; set; } = stateNumber;
     public VehicleCategory VehicleCategory { get; set; } = vehicleCategory;

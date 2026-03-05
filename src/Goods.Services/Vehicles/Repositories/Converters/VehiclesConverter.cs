@@ -26,14 +26,18 @@ internal static class VehiclesConverter
     {
         return new VehicleDb(
             reader.GetGuid(reader.GetOrdinal("id")),
-            reader.GetGuid(reader.GetOrdinal("driver_id")),
+            reader.IsDBNull(reader.GetOrdinal("driver_id"))
+                ? null
+                : reader.GetGuid(reader.GetOrdinal("driver_id")),
             reader.GetString(reader.GetOrdinal("name")),
             reader.GetString(reader.GetOrdinal("state_number")),
             (VehicleCategory)reader.GetInt32(reader.GetOrdinal("vehicle_category")),
-            reader.GetDecimal(reader.GetOrdinal("average_speed")),
-            reader.GetDecimal(reader.GetOrdinal("fuel_consumption")),
+            Convert.ToDecimal(reader.GetFloat(reader.GetOrdinal("average_speed"))),
+            Convert.ToDecimal(reader.GetFloat(reader.GetOrdinal("fuel_consumption"))),
             reader.GetDateTime(reader.GetOrdinal("created_datetime_utc")),
-            reader.GetDateTime(reader.GetOrdinal("modified_datetime_utc")),
+            reader.IsDBNull(reader.GetOrdinal("modified_datetime_utc"))
+                ? null
+                : reader.GetDateTime(reader.GetOrdinal("modified_datetime_utc")),
             reader.GetBoolean(reader.GetOrdinal("is_removed"))
         );
     }

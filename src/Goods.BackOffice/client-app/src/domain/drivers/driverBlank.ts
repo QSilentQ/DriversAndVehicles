@@ -4,42 +4,42 @@ import { Driver } from "./driver";
 
 export interface DriverBlank {
   id: string | null;
-  first_name: string | null;
-  second_name: string | null;
-  last_name: string | null;
+  firstName: string | null;
+  secondName: string | null;
+  lastName: string | null;
   gender: Gender | null;
-  driver_license_category: DriverLicenseCategory | null;
+  driverLicenseCategory: DriverLicenseCategory[];
   birthday: Date | null;
   experience: Date | null;
-  pay_per_hour: number | null;
+  payPerHour: number | null;
 }
 
 export namespace DriverBlank {
   export function getDefault(): DriverBlank {
     return {
       id: null,
-      first_name: null,
-      second_name: null,
-      last_name: null,
+      firstName: null,
+      secondName: null,
+      lastName: null,
       gender: null,
-      driver_license_category: null,
+      driverLicenseCategory: [],
       birthday: null,
       experience: null,
-      pay_per_hour: null
+      payPerHour: null
     };
   }
 
   export function fromDriver(driver: Driver): DriverBlank {
     return {
       id: driver.id,
-      first_name: driver.first_name,
-      second_name: driver.second_name,
-      last_name: driver.last_name,
+      firstName: driver.firstName,
+      secondName: driver.secondName,
+      lastName: driver.lastName,
       gender: driver.gender,
-      driver_license_category: driver.driver_license_category,
+      driverLicenseCategory: driver.driverLicenseCategory,
       birthday: driver.birthday,
       experience: driver.experience,
-      pay_per_hour: driver.pay_per_hour
+      payPerHour: driver.payPerHour
     }
   }
 }

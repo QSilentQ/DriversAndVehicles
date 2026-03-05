@@ -10,10 +10,13 @@ export class DriversProvider {
   ]
 
   public static async saveDriver(driverBlank: DriverBlank): Promise<Result> {
+    const body = JSON.stringify(driverBlank, (key, value) =>
+      value instanceof Date ? value.toISOString().slice(0, 10) : value
+    );
     const response = await fetch('/drivers/save', {
       method: 'POST',
       headers: this.headers,
-      body: JSON.stringify(driverBlank)
+      body
     });
     const json = await response.json();
 

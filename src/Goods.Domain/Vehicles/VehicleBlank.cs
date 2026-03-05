@@ -5,7 +5,7 @@ namespace Goods.Domain.Vehicles;
 public class VehicleBlank
 {
     public Guid? Id { get; set; }
-    public Guid DriverId { get; set; }
+    public Guid? DriverId { get; set; }
     public String? Name { get; set; }
     public String? StateNumber { get; set; }
     public VehicleCategory? VehicleCategory { get; set; }

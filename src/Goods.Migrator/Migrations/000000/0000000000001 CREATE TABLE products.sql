@@ -32,11 +32,10 @@ CREATE TABLE vehicles (
   name varchar NOT NULL,
   state_number varchar NOT NULL,
   vehicle_category int4 NOT NULL,
-  average_speed decimal(3,1) NOT NULL,
-  fuel_consumption decimal(3,1) NOT NULL,
+  average_speed float(8) NOT NULL,
+  fuel_consumption float(8) NOT NULL,
   created_datetime_utc timestamp NOT NULL,
   modified_datetime_utc timestamp NULL,
   is_removed bool NULL,
-  CONSTRAINT vehicles_pk PRIMARY KEY (id),
-  CONSTRAINT vehicles_driver_fk FOREIGN KEY (driver_id) REFERENCES drivers(id)
+  CONSTRAINT vehicles_pk PRIMARY KEY (id)
 );

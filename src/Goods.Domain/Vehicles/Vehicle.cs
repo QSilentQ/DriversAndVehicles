@@ -4,7 +4,7 @@ namespace Goods.Domain.Vehicles;
 
 public class Vehicle(
     Guid id, 
-    Guid driverId,
+    Guid? driverId,
     String name,
     String stateNumber, 
     VehicleCategory vehicleCategory,
@@ -13,7 +13,7 @@ public class Vehicle(
     Boolean isRemoved)
 {
     public Guid Id { get; } = id;
-    public Guid DriverId { get; } = driverId;
+    public Guid? DriverId { get; } = driverId;
     public String Name { get; } = name;
     public String StateNumber { get; } = stateNumber;
     public VehicleCategory VehicleCategory { get; } = vehicleCategory;
