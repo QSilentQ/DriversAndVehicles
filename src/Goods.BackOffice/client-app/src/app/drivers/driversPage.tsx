@@ -98,7 +98,7 @@ export function DriversPage() {
 
 	function calculateDriverExperience(experience: Date) {
 		const diffMs = new Date().getTime() - new Date(experience).getTime();
-		const years = diffMs / (365.25 * 24 * 60 * 60 * 1000);
+		const years = diffMs / (365 * 24 * 60 * 60 * 1000);
 		return Math.floor(years);
 	}
 

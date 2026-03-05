@@ -1,4 +1,4 @@
-﻿using Goods.Domain.Vehicles;
+using Goods.Domain.Vehicles;
 using Goods.Tools.Types.Results;
 
 namespace Goods.Domain.Services;

@@ -1,15 +1,23 @@
-﻿using Goods.Domain.Products;
+using Goods.Domain.Drivers;
+using Goods.Domain.Drivers.Enums;
 using Goods.Domain.Services;
 using Goods.Domain.Vehicles;
-using Goods.Services.Products.Repositories;
+using Goods.Domain.Vehicles.Enums;
+using Goods.Services.Drivers.Repositories.Interfaces;
 using Goods.Services.Vehicles.Repositories.Interfaces;
 using Goods.Tools.Types.Results;
 
 namespace Goods.Services.Vehicles;
 
-public class VehiclesService(IVehiclesRepository vehiclesRepository) : IVehicleService
+public class VehiclesService(IVehiclesRepository vehiclesRepository, IDriversRepository driversRepository) : IVehicleService
 {
     private const Int32 MAX_VEHICLE_NAME_LENGTH = 255;
+    private const Int32 MIN_AGE_FOR_BUS_YEARS = 21;
+    private const Int32 MIN_EXPERIENCE_FOR_BUS_YEARS = 3;
+    private const Int32 GAS_PRICE = 100;
+    private const Int32 CRUISE_RANGE = 100;
+    private const Double INCOME_MARKUP = 1.3;
+
 
     public Result SaveVehicle(VehicleBlank vehicleBlank)
     {
@@ -33,6 +41,28 @@ public class VehiclesService(IVehiclesRepository vehiclesRepository) : IVehicleS
 
         if (vehicleBlank.Name.Length == MAX_VEHICLE_NAME_LENGTH)
             return Result.Failed($"Название транспортного средства слишком длинное. Максимально допустимо {MAX_VEHICLE_NAME_LENGTH} символов");
+
+        if (vehicleBlank.DriverId is not null)
+        {
+            Driver? driver = driversRepository.GetDriver(vehicleBlank.DriverId.Value);
+            if (driver is null)
+                return Result.Failed("Выбранный водитель не найден.");
+
+            LicenseCategory requiredCategory = (LicenseCategory)(Int32)vehicleBlank.VehicleCategory!.Value;
+            if (driver.DriverLicenseCategory is null || !driver.DriverLicenseCategory.Contains(requiredCategory))
+                return Result.Failed($"Для управления данным транспортным средством водителю нужна категория прав - {requiredCategory}.");
+
+            if (vehicleBlank.VehicleCategory == VehicleCategory.Buses)
+            {
+                DateOnly today = DateOnly.FromDateTime(DateTime.UtcNow);
+                Int32 age = FullYears(driver.Birthday, today);
+                Int32 experienceYears = FullYears(driver.Experience, today);
+                if (age < MIN_AGE_FOR_BUS_YEARS)
+                    return Result.Failed($"Для управления автобусом водителю должно быть не менее {MIN_AGE_FOR_BUS_YEARS} лет.");
+                if (experienceYears < MIN_EXPERIENCE_FOR_BUS_YEARS)
+                    return Result.Failed($"Для управления автобусом необходим стаж не менее {MIN_EXPERIENCE_FOR_BUS_YEARS} лет.");
+            }
+        }
 
         vehicleBlank.Id ??= Guid.NewGuid();
 
@@ -59,5 +89,25 @@ public class VehiclesService(IVehiclesRepository vehiclesRepository) : IVehicleS
 
         vehiclesRepository.MarkVehicleAsRemoved(vehicleId);
         return Result.Success();
+    }
+
+    public Double CalcCostHundredKMCruise(Guid vehicleId)
+    {
+        Vehicle? vehicle = GetVehicle(vehicleId);
+
+        if (vehicle is null || vehicle.DriverId is null)
+            throw new Exception("Автомобиль не найден или у него нет водителя");
+        Driver? driver = driversRepository.GetDriver(vehicle.DriverId.Value);
+
+
+
+        return 0;
+    }
+
+    private static Int32 FullYears(DateOnly from, DateOnly to)
+    {
+        Int32 years = to.Year - from.Year;
+        if (from.AddYears(years) > to) years--;
+        return years;
     }
 }

@@ -1,4 +1,4 @@
-﻿using Goods.Domain.Services;
+using Goods.Domain.Services;
 using Goods.Domain.Vehicles;
 using Goods.Tools.Types.Results;
 using Microsoft.AspNetCore.Mvc;
