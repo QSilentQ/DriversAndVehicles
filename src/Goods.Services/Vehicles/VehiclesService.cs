@@ -104,6 +104,11 @@ public class VehiclesService(IVehiclesRepository vehiclesRepository, IDriversRep
         return totalPrice;
     }
 
+    public static void ReassignDrivers()
+    {
+
+    }
+
     private static Int32 FullYears(DateOnly from, DateOnly to)
     {
         Int32 years = to.Year - from.Year;

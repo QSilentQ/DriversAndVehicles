@@ -24,6 +24,7 @@ namespace Goods.Services.Vehicles.Repositories
                     parameters.AddWithValue("p_average_speed", (Decimal)vehicleBlank.AverageSpeed!);
                     parameters.AddWithValue("p_fuel_consumption", (Decimal)vehicleBlank.FuelConsumption!);
                     parameters.AddWithValue("p_current_datetime_utc", DateTime.UtcNow);
+                    parameters.AddWithValue("p_last_driver_changed_datetime_utc", (Object?)vehicleBlank.LastDriverChangedDatetimeUtc ?? DBNull.Value);
                 }
             );
         }

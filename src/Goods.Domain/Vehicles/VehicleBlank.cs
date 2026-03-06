@@ -1,4 +1,4 @@
-﻿using Goods.Domain.Vehicles.Enums;
+using Goods.Domain.Vehicles.Enums;
 
 namespace Goods.Domain.Vehicles;
 
@@ -13,5 +13,6 @@ public class VehicleBlank
     public Decimal? FuelConsumption { get; set; }
     public DateTime? CreatedDatetimeUTC { get; set; }
     public DateTime ModifiedDatetimeUTC { get; set; }
+    public DateTime? LastDriverChangedDatetimeUtc { get; set; }
     public Boolean IsRemoved { get; set; }
 }

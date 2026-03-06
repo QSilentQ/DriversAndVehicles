@@ -37,5 +37,6 @@ CREATE TABLE vehicles (
   created_datetime_utc timestamp NOT NULL,
   modified_datetime_utc timestamp NULL,
   is_removed bool NULL,
+  last_driver_changed_datetime_utc timestamp NULL,
   CONSTRAINT vehicles_pk PRIMARY KEY (id)
 );

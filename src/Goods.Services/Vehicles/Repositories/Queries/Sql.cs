@@ -1,4 +1,4 @@
-﻿namespace Goods.Services.Vehicles.Repositories.Queries;
+namespace Goods.Services.Vehicles.Repositories.Queries;
 
 internal static class Sql
 {
@@ -33,7 +33,8 @@ internal static class Sql
                 vehicle_category = @p_vehicle_category,
                 average_speed = @p_average_speed,
                 fuel_consumption = @p_fuel_consumption,
-                modified_datetime_utc = @p_current_datetime_utc
+                modified_datetime_utc = @p_current_datetime_utc,
+                last_driver_changed_datetime_utc = COALESCE(@p_last_driver_changed_datetime_utc, last_driver_changed_datetime_utc)
         ";
 
     internal static String GetVehiclesPage =>

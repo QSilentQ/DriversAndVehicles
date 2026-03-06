@@ -1,5 +1,6 @@
 using System.IO.Compression;
 using Goods.Services;
+using Goods.Scheduler;
 using Goods.Tools.Utils.Json;
 using Microsoft.AspNetCore.ResponseCompression;
 
@@ -13,7 +14,7 @@ builder.Host.ConfigureServices(
 			.AddControllersWithViews()
 			.AddJsonOptions(options => TextJsonSerializer.Configure(options.JsonSerializerOptions));
 
-		serviceCollection.AddSingleton<IJsonSerializer>(new TextJsonSerializer());
+        serviceCollection.AddSingleton<IJsonSerializer>(new TextJsonSerializer());
 
 		serviceCollection.Configure<GzipCompressionProviderOptions>(options =>
 		{
@@ -26,6 +27,8 @@ builder.Host.ConfigureServices(
 			options.Providers.Add<BrotliCompressionProvider>();
 			options.Providers.Add<GzipCompressionProvider>();
 		});
+
+		serviceCollection.AddQuartzTasks();
 	}
 );
 
