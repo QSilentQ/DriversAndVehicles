@@ -46,7 +46,7 @@ export function VehiclesPage() {
 			vehicleId: null,
 			...ConfirmModalState.getClosed()
 		});
-
+	const [tripCostByVehicleId, setTripCostByVehicleId] = useState<Record<string, number>>({});
 	const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
 	useEffect(() => {
@@ -107,6 +107,13 @@ export function VehiclesPage() {
 		return `${firstName} ${secondName} ${lastName}`;
 	}
 
+	async function calcTripCost(vehicle: Vehicle) {
+		const result = await VehiclesProvider.getCalcCostHundredKM(vehicle.id);
+		if ('totalPrice' in result) {
+			setTripCostByVehicleId((prev) => ({ ...prev, [vehicle.id]: result.totalPrice }));
+		}
+	}
+
 	async function closeRemoveVehicleConfirmModal(isConfirmed: boolean) {
 		if (isConfirmed) {
 			if (removeVehicleConfirmModalState.vehicleId == null)
@@ -154,6 +161,7 @@ export function VehiclesPage() {
 								<TableCell>Категория</TableCell>
 								<TableCell>Средняя скорость, км/ч</TableCell>
 								<TableCell>Расход топлива, л/100 км</TableCell>
+								<TableCell>Стоимость 100 км</TableCell>
 								<TableCell>Управление</TableCell>
 							</TableRow>
 						</TableHead>
@@ -167,16 +175,28 @@ export function VehiclesPage() {
 								return (
 									<TableRow key={`vehicle__${vehicle.id}`}>
 										<TableCell width='10%'>{vehicle.name}</TableCell>
-										<TableCell width='15%'>{vehicle.driverId != null ? getDriverName(vehicle.driverId) : '—'}</TableCell>
-										<TableCell width='15%'>{vehicle.stateNumber}</TableCell>
-										<TableCell width='15%'>
+										<TableCell width='14%'>{vehicle.driverId != null ? getDriverName(vehicle.driverId) : '—'}</TableCell>
+										<TableCell width='14%'>{vehicle.stateNumber}</TableCell>
+										<TableCell width='10%'>
 											{vehicle.vehicleCategory != null
 												? VehicleCategory.getDisplayName(vehicle.vehicleCategory)
 												: '—'}
 										</TableCell>
-										<TableCell width='15%'>{vehicle.averageSpeed ?? '—'}</TableCell>
-										<TableCell width='15%'>{vehicle.fuelConsumption ?? '—'}</TableCell>
+										<TableCell width='14%'>{vehicle.averageSpeed ?? '—'}</TableCell>
+										<TableCell width='14%'>{vehicle.fuelConsumption ?? '—'}</TableCell>
 										<TableCell width='12%'>
+											{tripCostByVehicleId[vehicle.id] != null
+												? `${tripCostByVehicleId[vehicle.id].toFixed(2)} ₽`
+												: '—'}
+										</TableCell>
+										<TableCell width='25%'>
+											<Button
+												variant='edit'
+												title='100 км'
+												size='small'
+												sx={{ mr: 1 }}
+												onClick={() => calcTripCost(vehicle)}
+											/>
 											<Button
 												type='icon'
 												variant='edit'

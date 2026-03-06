@@ -16,7 +16,7 @@ public class VehiclesService(IVehiclesRepository vehiclesRepository, IDriversRep
     private const Int32 MIN_EXPERIENCE_FOR_BUS_YEARS = 3;
     private const Int32 GAS_PRICE = 100;
     private const Int32 CRUISE_RANGE = 100;
-    private const Double INCOME_MARKUP = 1.3;
+    private const Decimal INCOME_MARKUP = 1.3M;
 
 
     public Result SaveVehicle(VehicleBlank vehicleBlank)
@@ -91,17 +91,17 @@ public class VehiclesService(IVehiclesRepository vehiclesRepository, IDriversRep
         return Result.Success();
     }
 
-    public Double CalcCostHundredKMCruise(Guid vehicleId)
+    public Decimal CalcCostHundredKMCruise(Guid vehicleId)
     {
         Vehicle? vehicle = GetVehicle(vehicleId);
-
         if (vehicle is null || vehicle.DriverId is null)
             throw new Exception("Автомобиль не найден или у него нет водителя");
-        Driver? driver = driversRepository.GetDriver(vehicle.DriverId.Value);
 
+        Driver? driver = driversRepository.GetDriver(vehicle.DriverId.Value) ?? throw new Exception("Водитель не найден");
+        Decimal paymentToDriver = (driver.PayPerHour * (CRUISE_RANGE / vehicle.AverageSpeed) + GAS_PRICE * vehicle.FuelConsumption);
+        Decimal totalPrice = paymentToDriver * INCOME_MARKUP;
 
-
-        return 0;
+        return totalPrice;
     }
 
     private static Int32 FullYears(DateOnly from, DateOnly to)

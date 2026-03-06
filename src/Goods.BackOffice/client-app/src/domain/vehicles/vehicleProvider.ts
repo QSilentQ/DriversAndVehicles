@@ -49,4 +49,14 @@ export class VehiclesProvider {
 
     return Result.get(json);
   }
+
+  public static async getCalcCostHundredKM(vehicleId: string): Promise<{ totalPrice: number } | { error: string }> {
+    const response = await fetch(`/vehicles/calc_cost_hundred_km?vehicleId=${vehicleId}`, {
+      method: 'GET',
+      headers: this.headers
+    });
+    const json = await response.json();
+    
+    return { totalPrice: Number(json) };
+  }
 }

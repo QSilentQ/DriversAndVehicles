@@ -30,4 +30,10 @@ public class VehiclesController(IVehicleService vehicleService) : AppController
     {
         return vehicleService.MarkVehicleAsRemoved(vehicleId);
     }
+
+    [HttpGet("vehicles/calc_cost_hundred_km")]
+    public Decimal CalcCostHundredKMCruise([FromQuery] Guid vehicleId)
+    {
+        return vehicleService.CalcCostHundredKMCruise(vehicleId);
+    }
 }
